@@ -1,22 +1,15 @@
-import os
-import openai
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-
 class ApiBuilder:
 
     @staticmethod
-    def ChatCompletion(msg: list[dict]):
+    def ChatCompletion(openai, msg, chatCompletionConfig):
         return openai.ChatCompletion.create(
             messages=msg,
-            **vars(default_config.chatCompletionConfig)
+            **vars(chatCompletionConfig)
         )
 
     @staticmethod
-    def Image(prompt: str):
-        res = openai.Image.create(
+    def Image(openai, prompt, imageConfig):
+        return openai.Image.create(
             prompt=prompt,
-            **vars(default_config.imageConfig)
+            **vars(imageConfig)
         )
-        return res
