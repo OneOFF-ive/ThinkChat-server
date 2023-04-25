@@ -15,4 +15,6 @@ app.config['SESSION_REDIS'] = Redis(host=redis_conf.redis_host,
                                     db=redis_conf.redis_db)
 Session(app)
 
-from app import routes
+from app import common
+
+app.register_blueprint(common.bp)

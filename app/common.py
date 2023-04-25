@@ -1,12 +1,14 @@
 import json
 
-from flask import make_response, session, request, jsonify
+from flask import make_response, session, request, jsonify, Blueprint
 
 from app import app, redis_client
 from lib.config import ChatCompletionConfig, ImageConfig, Config
 
+bp = Blueprint("common", __name__, url_prefix='/common')
 
-@app.route("/connect", methods=['post'])
+
+@bp.route("/connect", methods=['post'])
 def connect():
     print(request.headers)
     json_data = request.json
@@ -20,20 +22,15 @@ def connect():
     return "connected"
 
 
-@app.route("/test")
+@bp.route("/test")
 def test():
     print(request.headers)
     config = session.get('config')
     return config.__dict__
 
 
-@app.route("/close")
+@bp.route("/close")
 def close():
     print(request.headers)
     session.clear()
     return "close"
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return "404"
