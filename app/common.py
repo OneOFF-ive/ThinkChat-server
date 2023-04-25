@@ -1,8 +1,5 @@
-import json
+from flask import session, request, Blueprint
 
-from flask import make_response, session, request, jsonify, Blueprint
-
-from app import app, redis_client
 from lib.config import ChatCompletionConfig, ImageConfig, Config
 
 bp = Blueprint("common", __name__, url_prefix='/common')
