@@ -7,7 +7,6 @@ bp = Blueprint("common", __name__, url_prefix='/common')
 
 @bp.route("/connect", methods=['post'])
 def connect():
-    print(request.headers)
     json_data = request.json
     chatCompletionConfig = ChatCompletionConfig(**json_data.get("ChatCompletionConfig"))
     imageConfig = ImageConfig(**json_data.get("ImageConfig"))
@@ -21,13 +20,11 @@ def connect():
 
 @bp.route("/test")
 def test():
-    print(request.headers)
     config = session.get('config')
     return config.__dict__
 
 
 @bp.route("/close")
 def close():
-    print(request.headers)
     session.clear()
     return "close"
