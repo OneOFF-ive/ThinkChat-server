@@ -1,5 +1,4 @@
 from flask import session, request, Blueprint
-
 from lib.config import ChatCompletionConfig, ImageConfig, Config
 
 bp = Blueprint("common", __name__, url_prefix='/common')
@@ -13,9 +12,18 @@ def connect():
     config = Config(chatCompletionConfig=chatCompletionConfig,
                     imageConfig=imageConfig,
                     max_context_size=json_data.get("max_context_size"),
-                    auto_modify_cons=json_data.get("auto_modify_cons"))
+                    auto_modify_cons=json_data.get("auto_modify_cons"),
+                    openai_key=json_data.get("openai_key"))
     session["config"] = config
-    return "connected"
+    return "1"
+
+
+@bp.route("/select/records", methods=['post'])
+def selectRecords():
+    json_data = request.json
+    name = json_data.get("name")
+    session["records_name"] = name
+    return "1"
 
 
 @bp.route("/test")
@@ -27,4 +35,5 @@ def test():
 @bp.route("/close")
 def close():
     session.clear()
+    print("closed")
     return "close"
