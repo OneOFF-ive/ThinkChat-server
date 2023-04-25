@@ -26,6 +26,7 @@ class Config:
     imageConfig: ImageConfig
     max_context_size: int
     auto_modify_cons: bool
+    openai_key: str
 
 
 __all__ = [
