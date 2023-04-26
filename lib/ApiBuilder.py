@@ -1,8 +1,4 @@
-import threading
-
 import openai
-
-lock = threading.Lock
 
 
 class ApiBuilder:
@@ -17,9 +13,8 @@ class ApiBuilder:
 
     @staticmethod
     def Image(openai_key, prompt, imageConfig):
-        with lock:
-            openai.api_key = openai_key
-            return openai.Image.create(
-                prompt=prompt,
-                **vars(imageConfig)
-            )
+        openai.api_key = openai_key
+        return openai.Image.create(
+            prompt=prompt,
+            **vars(imageConfig)
+        )
