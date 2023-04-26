@@ -15,7 +15,7 @@ def connect():
                     auto_modify_cons=json_data.get("auto_modify_cons"),
                     openai_key=json_data.get("openai_key"))
     session["config"] = config
-    return "1"
+    return "connected"
 
 
 @bp.route("/select/records", methods=['post'])
@@ -23,17 +23,11 @@ def selectRecords():
     json_data = request.json
     name = json_data.get("name")
     session["records_name"] = name
-    return "1"
-
-
-@bp.route("/test")
-def test():
-    config = session.get('config')
-    return config.__dict__
+    return name
 
 
 @bp.route("/close")
 def close():
     session.clear()
     print("closed")
-    return "close"
+    return "closed"
