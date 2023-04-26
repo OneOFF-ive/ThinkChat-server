@@ -35,7 +35,7 @@ def ChatCompletion():
         answer = {"role": "assistant", "content": content}
         redis_client.lpush(key, json.dumps(answer))
 
-    res = "unknown error"
+    res = "server error"
     while True:
         try:
             completion = ApiBuilder.ChatCompletion(openai_key, dict_list, chatCompletionConfig)
@@ -60,3 +60,19 @@ def ChatCompletion():
             break
 
     return res
+
+
+@bp.route("image", methods=['post'])
+def image():
+    data = request.json
+    prompt = data.get("prompt")
+    config = session.get('config')
+    openai_key = config.openai_key
+    imageConfig = config.imageConfig
+
+    try:
+        return ApiBuilder.Image(openai_key, prompt, imageConfig)["data"][0]["url"]
+    except APIConnectionError or TimeoutError:
+        return "time out"
+    except InvalidRequestError:
+        return "invalid request"
