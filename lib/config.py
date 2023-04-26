@@ -17,7 +17,6 @@ class ChatCompletionConfig:
 class ImageConfig:
     n: int
     size: str
-    response_format: str
 
 
 @dataclass

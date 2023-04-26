@@ -16,5 +16,6 @@ class ApiBuilder:
         openai.api_key = openai_key
         return openai.Image.create(
             prompt=prompt,
+            response_format="url",
             **vars(imageConfig)
         )
