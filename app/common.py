@@ -1,5 +1,6 @@
 from flask import session, request, Blueprint
 from lib.config import ChatCompletionConfig, ImageConfig, Config
+from app import redis_client
 
 bp = Blueprint("common", __name__, url_prefix='/common')
 
@@ -18,12 +19,20 @@ def connect():
     return "connected"
 
 
-@bp.route("/select/records", methods=['post'])
-def selectRecords():
+@bp.route("/select/record", methods=['post'])
+def selectRecord():
     json_data = request.json
     name = json_data.get("name")
     session["records_name"] = name
     return name
+
+
+@bp.route("/all/records", methods=['get'])
+def allRecords():
+    openai_key = session.get('config').openai_key
+    keys = redis_client.keys(openai_key + "*")
+    key_list = [key.decode('utf-8').replace(openai_key + '_', '', 1) for key in keys]
+    return key_list
 
 
 @bp.route("/close")
