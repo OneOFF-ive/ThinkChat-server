@@ -12,3 +12,26 @@
 执行命令```python run.py```
 
 ## 接口说明
+```/common/connect```  
+用于连接服务器，设置对话参数，需要以json的形式携带以下参数
+```json
+{
+  "ChatCompletionConfig": {
+    "model": "gpt-3.5-turbo",
+    "temperature": 1,
+    "n": 1,
+    "stream": true,
+    "stop": "",
+    "max_tokens": 2048,
+    "presence_penalty": 0,
+    "frequency_penalty": 0
+  },
+  "ImageConfig": {
+    "n": 1,
+    "size": "1024x1024"
+  },
+  "max_context_size": 5,
+  "auto_modify_cons": true,
+  "openai_key": "openai_key"
+}
+```
