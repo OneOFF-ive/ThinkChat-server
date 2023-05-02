@@ -13,7 +13,7 @@
 
 ## 接口说明
 ```/common/connect```  
-用于连接服务器，设置对话参数，需要以json的形式携带以下参数
+用于连接服务器，设置对话参数，需要以json的形式携带以下参数，同时服务器会在redis种持久化一个session来储存这些配置，**应该在调用其他接口之前首先调用该接口，否则会被拦截**
 ```json
 {
   "ChatCompletionConfig": {
@@ -34,4 +34,10 @@
   "auto_modify_cons": true,
   "openai_key": "openai_key"
 }
-```
+```  
+```max_context_size``` 代表系统每次发送请求携带的上下文数量
+```auto_modify_cons``` 代表系统在运行过程是否自动调整```conversations```的大小  
+其余参数的具体含义参考[OpenAI API官网](https://platform.openai.com/docs/api-reference)
+  
+```/common/close```  
+关闭连接，服务器会删除持久化在redis中的session
