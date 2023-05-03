@@ -1,5 +1,6 @@
-from app import app
 from flask import request, session
+
+from app import app
 
 
 @app.before_request
@@ -9,8 +10,10 @@ def before_request():
         return
     else:
         if session.get("config") is None:
-            print("not connect")
             return "not connect"
-        if session.get("records_name") is None and path is not "/common/select/record":
-            print("not select record")
-            return "not select record"
+        if path == "/openai/chat/completion":
+            if session.get("records_name") is None:
+                return "not select record"
+            else:
+                return
+
