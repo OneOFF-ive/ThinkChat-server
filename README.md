@@ -55,4 +55,4 @@
 ```/common/all/data/<record>``` ```get```
 返回名为record的聊天记录中的所有内容 
   
-```/openai/```
+```/openai/chat/completion```
