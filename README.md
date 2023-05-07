@@ -1,6 +1,10 @@
 # ThinkChat-server
 ## ThinkChat是一个基于OpenAI接口的聊天机器人，该项目目的为ThinkChat开发服务端
 
+## 开发环境
+Python 3.9  
+Windows 10
+
 ## 启动之前
 1、准备好你的[openai key](https://platform.openai.com/account/api-keys)  
 
@@ -36,9 +40,7 @@
 }
 ```  
 ```max_context_size``` 代表系统每次发送请求携带的上下文数量
-
 ```auto_modify_cons``` 代表系统在运行过程是否自动调整```conversations```的大小  
-
 其余参数的具体含义参考[OpenAI API官网](https://platform.openai.com/docs/api-reference)
 
 ### ```/common/close``` ```get```  
@@ -58,3 +60,15 @@
 返回名为record的聊天记录中的所有内容 
   
 ### ```/openai/chat/completion``` ```post```
+用于对话,需要携带提示语  
+参数如下：  
+```json
+{"prompt": "prompt"}
+```
+
+### ```/openai/image``` ```post```
+用于生成图片，需要携带提示语
+参数如下：
+```json
+{"prompt": "prompt"}
+```
