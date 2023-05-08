@@ -1,5 +1,5 @@
 # ThinkChat-server
-## ThinkChat是一个基于OpenAI接口的聊天机器人，该项目目的为ThinkChat开发服务端
+## ThinkChat是一个基于OpenAI接口的聊天机器人，该项目为ThinkChat的服务端
 
 ## 开发环境
 Python 3.9  
