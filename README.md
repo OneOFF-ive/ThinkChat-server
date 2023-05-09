@@ -15,6 +15,9 @@ Windows 10
 ## 启动项目
 执行命令```python run.py```
 
+## API
+该服务器有python接口，详见[ThinkChat-api](https://github.com/OneOFF-ive/ThinkChat-api)
+
 ## 接口说明
 ### ```/common/connect``` ```post```  
 用于连接服务器，设置对话参数，需要以json的形式携带以下参数，同时服务器会在redis种持久化一个session来储存这些配置，**应该在调用其他接口之前首先调用该接口，否则会被拦截**
