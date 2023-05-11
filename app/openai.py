@@ -1,8 +1,9 @@
 from flask import session, request, Blueprint, Response, stream_with_context
 from openai import InvalidRequestError
 from openai.error import APIConnectionError
-from lib.ApiBuilder import ApiBuilder
+
 from app import app
+from lib.ApiBuilder import ApiBuilder
 
 bp = Blueprint("openai", __name__, url_prefix='/openai')
 
@@ -39,7 +40,7 @@ def ChatCompletion():
             completion = ApiBuilder.ChatCompletion(openai_key, dict_list, chatCompletionConfig)
             db.setData(key, msg)
             if chatCompletionConfig.stream:
-                res = Response(stream_with_context(generate_response(completion)), content_type='text/plain')
+                res = Response(stream_with_context(generate_response(completion)))
             else:
                 res = completion.choices[0]["message"]["content"]
                 answer = {"role": "assistant", "content": res}
