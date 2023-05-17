@@ -1,9 +1,8 @@
-import json
 from flask import session, request, Blueprint, Response, stream_with_context
 from openai import InvalidRequestError
 from openai.error import APIConnectionError
 from lib.ApiBuilder import ApiBuilder
-from app import redis_client, app
+from app import app
 
 bp = Blueprint("openai", __name__, url_prefix='/openai')
 
