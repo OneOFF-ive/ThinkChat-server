@@ -3,7 +3,7 @@ from flask import session, request, Blueprint, Response, stream_with_context
 from openai import InvalidRequestError
 from openai.error import APIConnectionError
 from lib.ApiBuilder import ApiBuilder
-from app import redis_client
+from app import redis_client, app
 
 bp = Blueprint("openai", __name__, url_prefix='/openai')
 
@@ -20,9 +20,9 @@ def ChatCompletion():
     msg = {"role": "user", "content": prompt}
     key = openai_key + '_' + session.get("records_name")
 
-    str_list = redis_client.lrange(key, -config.max_context_size + 1, -1)
-    dict_list = [json.loads(item) for item in str_list]
-    dict_list = dict_list[::-1]
+    db = app.config['db']
+
+    dict_list = db.getData(key, config.max_context_size-1)
     dict_list.append(msg)
 
     def generate_response(r):
@@ -32,24 +32,26 @@ def ChatCompletion():
             chunk_content = chunk_message.get('content', '')
             content = content + chunk_content
             yield chunk_content
-        answer = {"role": "assistant", "content": content}
-        redis_client.lpush(key, json.dumps(answer))
+        res_data = {"role": "assistant", "content": content}
+        db.setData(key, res_data)
 
     res = "server error"
     while True:
         try:
             completion = ApiBuilder.ChatCompletion(openai_key, dict_list, chatCompletionConfig)
-            redis_client.lpush(key, json.dumps(msg))
+            db.setData(key, msg)
             if chatCompletionConfig.stream:
                 res = Response(stream_with_context(generate_response(completion)), content_type='text/plain')
             else:
                 res = completion.choices[0]["message"]["content"]
+                answer = {"role": "assistant", "content": res}
+                db.setData(key, answer)
 
             if config.auto_modify_cons:
                 config.max_context_size = config.max_context_size + 2
             break
         except InvalidRequestError:
-            if config.max_context_size > 2 and config.auto_modify_cons:
+            if config.max_context_size > 1 and config.auto_modify_cons:
                 config.max_context_size = int(config.max_context_size / 2)
                 continue
             else:
