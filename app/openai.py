@@ -21,9 +21,6 @@ def ChatCompletion():
 
     db = app.config['db']
 
-    dict_list = db.getData(key, config.max_context_size-1)
-    dict_list.append(msg)
-
     def generate_response(r):
         content = ''
         for chunk in r:
@@ -37,6 +34,8 @@ def ChatCompletion():
     res = "server error"
     while True:
         try:
+            dict_list = db.getData(key, config.max_context_size - 1)
+            dict_list.append(msg)
             completion = ApiBuilder.ChatCompletion(openai_key, dict_list, chatCompletionConfig)
             db.setData(key, msg)
             if chatCompletionConfig.stream:
