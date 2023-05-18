@@ -12,6 +12,7 @@ redis_client = Redis(host=redis_conf.redis_host,
                      db=redis_conf.redis_db)
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_REDIS'] = redis_client
+app.config['PERMANENT_SESSION_LIFETIME'] = 1800
 app.config['db'] = DataController()
 Session(app)
 
