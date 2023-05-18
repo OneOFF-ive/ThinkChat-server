@@ -19,3 +19,9 @@ class DataController:
 
     def setData(self, key, msg):
         self.db.lpush(key, json.dumps(msg))
+
+    def getAllData(self, key):
+        str_list = self.db.lrange(key, 0, -1)
+        dict_list = [json.loads(item) for item in str_list]
+        dict_list = dict_list[::-1]
+        return dict_list
