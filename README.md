@@ -8,7 +8,7 @@ Windows 10
 ## 启动之前
 1、准备好你的[openai key](https://platform.openai.com/account/api-keys)  
 
-2、有一个运行redis的服务器  
+2、有一个运行redis的服务器，并修改/instance/redis_conf_example.py文件中的配置，将redis_conf_example.py重命名为redis_conf.py  
 
 3、安装依赖```pip install -r requirements.txt```
 
