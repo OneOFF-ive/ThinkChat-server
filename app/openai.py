@@ -42,10 +42,7 @@ def ChatCompletion():
             completion = ApiBuilder.ChatCompletion(openai_key, dict_list, chatCompletionConfig)
             db.setData(key, msg)
             if chatCompletionConfig.stream:
-                res = Response(stream_with_context(generate_response(completion)),
-                               headers={
-                                   'Cache-Control': 'no-cache'
-                               })
+                res = Response(stream_with_context(generate_response(completion)))
             else:
                 res = completion.choices[0]["message"]["content"]
                 answer = {"role": "assistant", "content": res}
