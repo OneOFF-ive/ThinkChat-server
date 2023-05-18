@@ -1,15 +1,18 @@
 import json
 
-from instance import redis_conf
 from redis import Redis
+
+from instance import redis_conf
+
+redis_client = Redis(host=redis_conf.redis_host,
+                     port=redis_conf.redis_port,
+                     password=redis_conf.redis_password,
+                     db=redis_conf.redis_db)
 
 
 class DataController:
     def __init__(self):
-        self.db = Redis(host=redis_conf.redis_host,
-                        port=redis_conf.redis_port,
-                        password=redis_conf.redis_password,
-                        db=redis_conf.redis_db)
+        self.db = redis_client
 
     def getData(self, key, num):
         str_list = self.db.lrange(key, -num, -1)
