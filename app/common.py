@@ -43,8 +43,8 @@ def allData(record):
     data = db.getAllData(key)
     return data
 
+
 @bp.route("/close")
 def close():
     session.clear()
-    print("closed")
     return "closed"

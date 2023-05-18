@@ -19,3 +19,5 @@ from app import common, openai
 
 app.register_blueprint(common.bp)
 app.register_blueprint(openai.bp)
+
+from app import middleware
