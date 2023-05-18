@@ -28,7 +28,9 @@ def ChatCompletion():
             chunk_message = chunk['choices'][0]['delta']
             chunk_content = chunk_message.get('content', '')
             content = content + chunk_content
-            yield chunk_content
+            if chunk_content != "":
+                for char in chunk_content:
+                    yield char.encode("utf-16")
         res_data = {"role": "assistant", "content": content}
         db.setData(key, res_data)
 
@@ -40,7 +42,10 @@ def ChatCompletion():
             completion = ApiBuilder.ChatCompletion(openai_key, dict_list, chatCompletionConfig)
             db.setData(key, msg)
             if chatCompletionConfig.stream:
-                res = Response(stream_with_context(generate_response(completion)))
+                res = Response(stream_with_context(generate_response(completion)),
+                               headers={
+                                   'Cache-Control': 'no-cache'
+                               })
             else:
                 res = completion.choices[0]["message"]["content"]
                 answer = {"role": "assistant", "content": res}
